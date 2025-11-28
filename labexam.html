@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Course List Application</title>
+    <style>
+        body {
+            font-family: Arial;
+            width: 50%;
+            margin: 40px auto;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            margin: 6px 0;
+            background: #f2f2f2;
+            border: 1px solid #999;
+            cursor: move;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e9ffe9;
+            border: 1px solid green;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Simple Course List Application</h2>
+
+    <p>Drag and drop to rearrange the courses:</p>
+
+    <ul id="courseList">
+        <li draggable="true">Data Structures</li>
+        <li draggable="true">DBMS</li>
+        <li draggable="true">Operating Systems</li>
+        <li draggable="true">Computer Networks</li>
+        <li draggable="true">Java Programming</li>
+    </ul>
+
+    <button onclick="showOrder()">Show Updated Order</button>
+
+    <div id="output"></div>
+
+<script>
+    let draggedItem = null;
+    const list = document.getElementById("courseList");
+
+   
+    list.addEventListener("dragstart", (e) => {
+        draggedItem = e.target;
+        e.target.style.opacity = "0.5";
+    });
+
+  
+    list.addEventListener("dragend", (e) => {
+        e.target.style.opacity = "1";
+    });
+
+  
+    list.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        let target = e.target;
+        if (target.tagName === "LI" && target !== draggedItem) {
+            list.insertBefore(draggedItem, target.nextSibling);
+        }
+    });
+
+    function showOrder() {
+        let items = list.querySelectorAll("li");
+        let result = "<h3>Updated Course Order:</h3>";
+        items.forEach((item, index) => {
+            result += (index + 1) + ". " + item.innerText + "<br>";
+        });
+        document.getElementById("output").innerHTML = result;
+    }
+</script>
+
+</body>
+</html>
